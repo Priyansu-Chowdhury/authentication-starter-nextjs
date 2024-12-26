@@ -1,12 +1,13 @@
 {
-  "name": "social-media",
+  "name": "next-auth-starter",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate --no-engine"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
@@ -43,6 +44,7 @@
     "@radix-ui/react-tooltip": "^1.1.5",
     "@tanstack/react-query": "^5.62.7",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.5.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^4.1.0",
@@ -60,9 +62,11 @@
     "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.0",
+    "request-ip": "^3.3.0",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "useragent": "^2.3.0",
     "vaul": "^1.1.1",
     "zod": "^3.24.1"
   },
@@ -73,6 +77,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/request-ip": "^0.0.41",
+    "@types/useragent": "^2.3.4",
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
     "postcss": "^8",

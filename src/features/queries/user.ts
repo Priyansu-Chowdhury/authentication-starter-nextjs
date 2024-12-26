@@ -1,7 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { InferResponseType, InferRequestType } from "hono";
 import { client } from "@/lib/rpc";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 type CreateUserRequestType = InferRequestType<
   (typeof client.api.data.users.register)["$post"]
@@ -9,6 +10,10 @@ type CreateUserRequestType = InferRequestType<
 
 type CreateUserResponseType = InferResponseType<
   (typeof client.api.data.users.register)["$post"]
+>;
+
+type GetUserResponseType = InferResponseType<
+  (typeof client.api.data.users.profile)["$get"]
 >;
 
 export const useCreateUser = () => {
@@ -29,4 +34,24 @@ export const useCreateUser = () => {
     },
   });
   return mutation;
+};
+
+export const useGetUser = () => {
+  const { data } = useSession();
+  const userId = data?.user?.id;
+
+  const query = useQuery<GetUserResponseType, Error>({
+    queryKey: ["user", userId],
+    queryFn: async () => {
+      const response = await client.api.data.users.profile.$get({
+        query: { userId },
+      });
+
+      return response.json();
+    },
+    enabled: !!userId,
+    retry: false,
+  });
+
+  return query;
 };

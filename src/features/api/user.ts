@@ -10,10 +10,8 @@ const createUserSchema = z.object({
   password: z.string().min(2).max(50),
 });
 
-const user = new Hono().post(
-  "/register",
-  zValidator("json", createUserSchema),
-  async (c) => {
+const user = new Hono()
+  .post("/register", zValidator("json", createUserSchema), async (c) => {
     const userData = c.req.valid("json");
 
     const existingUser = await prisma.user.findUnique({
@@ -41,7 +39,40 @@ const user = new Hono().post(
       status: 200,
       message: "Registration successful",
     });
-  }
-);
+  })
+  .get(
+    "/profile",
+    zValidator("query", z.object({ userId: z.string().optional() })),
+    async (c) => {
+      const { userId } = c.req.valid("query");
+      if (!userId) {
+        return c.json({
+          status: 400,
+          message: "Please login to view your profile",
+          user: null,
+        });
+      }
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+          accounts: true,
+        },
+      });
+
+      if (!user) {
+        return c.json({
+          status: 404,
+          message: "User not found",
+          user: null,
+        });
+      }
+
+      return c.json({
+        status: 200,
+        message: "Profile data fetched successfully!",
+        user,
+      });
+    }
+  );
 
 export default user;

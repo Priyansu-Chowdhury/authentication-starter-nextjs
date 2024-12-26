@@ -13,9 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useTransition } from "react";
 import { useCreateUser } from "@/features/queries/user";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -25,7 +25,7 @@ const formSchema = z.object({
 
 const RegisterForm = () => {
   const createUser = useCreateUser();
-  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,18 +36,18 @@ const RegisterForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    startTransition(() => {
-      createUser.mutate(values, {
-        onSuccess: () => {
-          form.reset();
-          signIn("credentials", {
-            email: values.email,
-            password: values.password,
-          });
-        },
-      });
+    createUser.mutate(values, {
+      onSuccess: () => {
+        signIn("credentials", {
+          email: values.email,
+          password: values.password,
+        });
+        form.reset();
+        toast.loading("Wait we are logging you in...😊");
+      },
     });
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -58,9 +58,12 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input
+                  placeholder="John Doe"
+                  disabled={createUser.isPending}
+                  {...field}
+                />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
@@ -72,9 +75,12 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Johndoe@gmail.com" {...field} />
+                <Input
+                  placeholder="Johndoe@gmail.com"
+                  disabled={createUser.isPending}
+                  {...field}
+                />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
@@ -86,14 +92,22 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="******" {...field} />
+                <Input
+                  placeholder="******"
+                  disabled={createUser.isPending}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isPending}>
-          Submit
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={createUser.isPending}
+        >
+          {createUser.isPending ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>
