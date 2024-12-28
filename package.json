@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate --no-engine"
+    "postinstall": "prisma generate --no-engine",
+    "install:legacy": "npm install --legacy-peer-deps",
+    "preinstall": "node -e \"if(process.version.split('.')[0] < 16) { console.error('Node.js version 16 or higher is required. Please update Node.js on your machine.'); process.exit(1); }\""
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
@@ -49,6 +51,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.1",
+    "framer-motion": "^11.15.0",
     "hono": "^4.6.13",
     "input-otp": "^1.4.1",
     "lucide-react": "^0.468.0",

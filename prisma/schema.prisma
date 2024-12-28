@@ -13,7 +13,9 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  otp           String?
   image         String?
+  imageMeta     Json?
   password      String?
   role          Role      @default(USER)
   accounts      Account[]

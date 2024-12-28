@@ -3,11 +3,21 @@ import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { prisma } from "@/db/prisma";
 import { hashPassword } from "@/lib/password";
+import { Role } from "@prisma/client";
 
 const createUserSchema = z.object({
   username: z.string().min(2).max(50),
   email: z.string().min(2).max(200),
   password: z.string().min(2).max(50),
+});
+
+const updateUserSchema = z.object({
+  id: z.string().min(2).max(50),
+  name: z.string().min(2).max(50),
+  email: z.string().min(2).max(200),
+  image: z.string().optional().nullable(),
+  imageMeta: z.object({}).optional().nullable(),
+  role: z.nativeEnum(Role),
 });
 
 const user = new Hono()
@@ -73,6 +83,32 @@ const user = new Hono()
         user,
       });
     }
-  );
+  )
+  .put("/update", zValidator("json", updateUserSchema), async (c) => {
+    try {
+      const userData = c.req.valid("json");
+
+      await prisma.user.update({
+        where: { id: userData.id },
+        data: {
+          name: userData.name,
+          email: userData.email,
+          image: userData.image,
+          imageMeta: userData.imageMeta,
+          role: userData.role,
+        },
+      });
+
+      return c.json({
+        status: 200,
+        message: "User updated successfully",
+      });
+    } catch {
+      return c.json({
+        status: 500,
+        message: "An error occurred",
+      });
+    }
+  });
 
 export default user;

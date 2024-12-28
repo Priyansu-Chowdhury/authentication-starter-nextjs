@@ -70,12 +70,14 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         });
         if (!existingUser) return token;
         token.role = existingUser.role;
+        token.emailVerified = existingUser.emailVerified;
         return token;
       },
       session({ session, token }) {
         if (token.sub && session.user) {
           session.user.id = token.sub;
           session.user.role = token.role as Role;
+          session.user.emailVerified = token.emailVerified as Date;
         }
         return session;
       },

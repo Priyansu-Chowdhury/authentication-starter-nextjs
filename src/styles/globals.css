@@ -81,4 +81,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  ::selection {
+    @apply bg-transparent text-primary;
+  }
+
+  input::selection {
+    @apply bg-blue-100 text-primary text-opacity-100;
+  }
 }
