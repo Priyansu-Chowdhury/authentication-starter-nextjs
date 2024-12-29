@@ -1,40 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🚀 Next-Auth Starter
 
-## Getting Started
+A **modern, feature-rich starter project** for building Next.js applications with authentication, database integration, and beautifully designed UI components.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- 🔒 **Authentication**: Easily integrate Google, GitHub, and LinkedIn with NextAuth.js.
+- 📦 **Database Integration**: Prisma ORM supporting PostgreSQL (via Prisma Accelerate) and MongoDB.
+- 🎨 **Modern UI**: Powered by Radix UI and styled with TailwindCSS.
+- 🛠️ **Developer Tools**: TypeScript, ESLint, and Prettier for clean and maintainable code.
+- ⚡ **State Management**: React Query for fast and efficient data fetching.
+
+---
+
+## 🛠️ Prerequisites
+
+Ensure you have the following installed:
+- **Node.js**: v16 or higher
+- **npm**: v7 or higher
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ git clone https://github.com/your-repo/next-auth-starter.git
+$ cd next-auth-starter
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+To handle peer dependency conflicts, use:
+```bash
+$ npm run install:legacy
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 3. Configure Environment Variables
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Create a `.env.local` file in the project root and add the following:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+DATABASE_URL=your_prisma_database_url
+DIRECT_URL=your_direct_mongo_connection
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+LINKEDIN_CLIENT_ID=your_linkedin_client_id
+LINKEDIN_CLIENT_SECRET=your_linkedin_client_secret
+NEXT_PUBLIC_IMAGE_UPLOAD_URL=your_image_upload_url
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run Database Migrations
 
-## Learn More
+```bash
+$ npx prisma migrate dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 5. Start the Development Server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+```bash
+$ npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Access the application at [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+```
+├── components/       # Reusable UI components
+├── pages/            # Next.js routes
+├── prisma/           # Prisma schema and migrations
+├── public/           # Public assets
+├── styles/           # Global styles
+├── utils/            # Utility functions
+└── .env.local        # Environment variables
+```
+
+---
+
+## 📜 Scripts
+
+- **`npm run dev`**: Start the development server with Turbopack.
+- **`npm run build`**: Build the application for production.
+- **`npm run start`**: Start the application in production mode.
+- **`npm run lint`**: Run ESLint checks.
+- **`npm run install:legacy`**: Install dependencies with legacy peer dependency resolution.
+- **`npm run postinstall`**: Generate Prisma client after installing dependencies.
+
+---
+
+## 🌍 Deployment
+
+### Steps to Deploy:
+
+1. Set environment variables on your hosting platform.
+2. Build the project:
+   ```bash
+   $ npm run build
+   ```
+3. Start the server:
+   ```bash
+   $ npm run start
+   ```
+
+---
+
+## 🛠️ Technologies Used
+
+- **Next.js**: Framework for server-rendered React applications.
+- **NextAuth.js**: Flexible authentication for Next.js.
+- **Prisma**: Database ORM for PostgreSQL and MongoDB.
+- **TailwindCSS**: Utility-first CSS framework.
+- **Radix UI**: Accessible, high-quality components.
+- **React Query**: Powerful data fetching and caching.
+- **Zod**: Type-safe schema validation.
+
+---
+
