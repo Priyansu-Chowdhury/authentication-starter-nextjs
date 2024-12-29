@@ -55,8 +55,8 @@ const getDeviceImage = (device: string) => {
 };
 
 const ManagementForm = () => {
-  const { status, data: session } = useSession();
-  const { data, isPending, refetch } = useGetUser(session?.user.id || "");
+  const { status } = useSession();
+  const { data, isPending, error, refetch } = useGetUser();
   const { mutate, isPending: isMutating } = useUpdateUser();
 
   const form = useForm<z.infer<typeof updateFormSchema>>({
@@ -120,13 +120,21 @@ const ManagementForm = () => {
     );
   }
 
-  if (status === "unauthenticated" || !data) {
+  if (error) {
     return (
       <div className="text-center py-8">
         <p className="text-red-500">Failed to load user data.</p>
         <Button onClick={() => refetch()} className="mt-4">
           Retry
         </Button>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated" || !data) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500">You are not logged in.</p>
       </div>
     );
   }
