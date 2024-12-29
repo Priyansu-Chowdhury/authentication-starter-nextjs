@@ -1,6 +1,6 @@
 {
   "functions": {
-    "src/**": {
+    "src/pages/**": {
       "maxDuration": 25
     }
   }
