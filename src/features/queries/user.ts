@@ -50,11 +50,8 @@ export const useCreateUser = () => {
 };
 
 export const useGetUser = () => {
-  console.log("Fetching user profile...");
   const { data } = useSession();
-  console.log("Session data:", data);
   const userId = data?.user?.id;
-  console.log("User ID:", userId);
   const query = useQuery<GetUserResponseType, Error>({
     queryKey: ["user", userId],
     queryFn: async () => {

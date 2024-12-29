@@ -54,7 +54,11 @@ const user = new Hono()
     "/profile",
     zValidator("query", z.object({ userId: z.string().optional() })),
     async (c) => {
+      console.log("Fetching user profile... api call");
+
       const { userId } = c.req.valid("query");
+      console.log(userId);
+
       if (!userId) {
         return c.json({
           status: 400,
@@ -62,12 +66,17 @@ const user = new Hono()
           user: null,
         });
       }
+
+      console.log("Fetching user profile... api call");
+
       const user = await prisma.user.findUnique({
         where: { id: userId },
         include: {
           accounts: true,
         },
       });
+
+      console.log("Response from profile:", user);
 
       if (!user) {
         return c.json({
