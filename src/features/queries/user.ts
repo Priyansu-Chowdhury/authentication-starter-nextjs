@@ -59,8 +59,9 @@ export const useGetUser = () => {
       const response = await client.api.data.users.profile.$get({
         query: { userId },
       });
-
-      return response.json();
+      const json = await response.json();
+      console.log("Response from profile:", json);
+      return json;
     },
     enabled: !!userId,
     retry: false,
