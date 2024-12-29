@@ -55,8 +55,8 @@ const getDeviceImage = (device: string) => {
 };
 
 const ManagementForm = () => {
-  const { status } = useSession();
-  const { data, isPending, refetch } = useGetUser();
+  const { status, data: session } = useSession();
+  const { data, isPending, refetch } = useGetUser(session?.user.id || "");
   const { mutate, isPending: isMutating } = useUpdateUser();
 
   const form = useForm<z.infer<typeof updateFormSchema>>({
