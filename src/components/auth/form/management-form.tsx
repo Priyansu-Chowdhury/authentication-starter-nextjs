@@ -121,6 +121,7 @@ const ManagementForm = () => {
   }
 
   if (error) {
+    console.log(error);
     return (
       <div className="text-center py-8">
         <p className="text-red-500">Failed to load user data.</p>
