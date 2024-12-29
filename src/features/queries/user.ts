@@ -70,7 +70,6 @@ export const useGetUser = () => {
       return json;
     },
     enabled: !!userId,
-    retry: false,
   });
 
   return query;
