@@ -52,17 +52,13 @@ export const useGetUser = (userId: string) => {
   const query = useQuery<GetUserResponseType, Error>({
     queryKey: ["user", userId],
     queryFn: async () => {
-      console.log("Fetching user profile... api call");
-
       const response = await client.api.data.users.profile.$get({
         query: { userId },
       });
-      console.log("Response from profile:", response);
-
       const json = await response.json();
-      console.log("Response from profile:", json);
       return json;
     },
+    enabled: !!userId,
   });
 
   return query;
